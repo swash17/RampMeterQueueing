@@ -35,7 +35,8 @@ namespace QueueCalcs
         private void btnWriteDataFile_Click(object sender, EventArgs e)
         {
             if (Interchange == null)
-                Interchange = new InterchangeData();
+                //Interchange = new InterchangeData();
+                Interchange = CreateInterchange.DDI();
             else
                 btnWriteDataFile.Text = "Ouput Successful";
             FileInputOutput.SerializeInputData(FileName, Interchange);

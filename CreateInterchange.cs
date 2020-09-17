@@ -20,22 +20,22 @@ namespace QueueCalcs
             List<IntersectionMovementData> TimingStageMovements = new List<IntersectionMovementData>();
             TimingStageMovements.Add(MovementEBright);
 
-            TimingStageData newTimgingStage = new TimingStageData(1, TimingStageMovements, 45);
-            TimingStages.Add(newTimgingStage);            
+            TimingStageData newTimingStage = new TimingStageData(1, TimingStageMovements, 45);
+            TimingStages.Add(newTimingStage);            
 
             TimingStageMovements = new List<IntersectionMovementData>();
             TimingStageMovements.Add(MovementWBleft);
             TimingStageMovements.Add(MovementEBright);  //free right-turn
 
-            newTimgingStage = new TimingStageData(2, TimingStageMovements, 15);
-            TimingStages.Add(newTimgingStage);
+            newTimingStage = new TimingStageData(2, TimingStageMovements, 15);
+            TimingStages.Add(newTimingStage);
 
             TimingStageMovements = new List<IntersectionMovementData>();
             TimingStageMovements.Add(MovementSBthru);
             TimingStageMovements.Add(MovementEBright);  //free right-turn
 
-            newTimgingStage = new TimingStageData(3, TimingStageMovements, 15);
-            TimingStages.Add(newTimgingStage);
+            newTimingStage = new TimingStageData(3, TimingStageMovements, 15);
+            TimingStages.Add(newTimingStage);
 
             //CycleData Cycle = new CycleData(TimingStages);
 

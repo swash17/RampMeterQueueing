@@ -105,6 +105,9 @@ namespace QueueCalcs.DataStructures
         int[] _avgDeparturesPerCycleVeh;  //0-left, 1-thru, 2-right, 3-total
         List<IntersectionMovementData> _movements;
 
+        public TimingStageData()
+        { }
+
         public TimingStageData(byte id, List<IntersectionMovementData> movements, float refPhaseGreenTime)
         {
             /*

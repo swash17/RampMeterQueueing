@@ -34,7 +34,9 @@ namespace QueueCalcs
         {
             StreamWriter swResults = new StreamWriter(outputFilename, false);
 
-            swResults.WriteLine("Time Step (sec), Timing Stage ID, On-Ramp Arrivals Time Step [Left], On-Ramp Arrivals Time Step [Thru], On-Ramp Arrivals Time Step [Right], On-Ramp Arrivals Time Step [Total], Departures Time Step, Veh Served Time Step, Cumulative Arrivals (Veh), Cumulative Departures (veh), Queue Length (veh), Queue Length (ft), % Queue Storage Occupied, % Time Max Meter Rate");
+            //swResults.WriteLine("Time Step (sec), Timing Stage ID, On-Ramp Arrivals Time Step [Left], On-Ramp Arrivals Time Step [Thru], On-Ramp Arrivals Time Step [Right], On-Ramp Arrivals Time Step [Total], Departures Time Step, Veh Served Time Step, Cumulative Arrivals (Veh), Cumulative Departures (veh), Queue Length (veh), Queue Length (ft), % Queue Storage Occupied, % Time Max Meter Rate");
+            swResults.WriteLine("Time Step (sec), Timing Stage ID, On-Ramp Arrivals Time Step [Left], On-Ramp Arrivals Time Step [Thru], On-Ramp Arrivals Time Step [Right], On-Ramp Arrivals Time Step [Total], Departures Time Step, Veh Served Time Step, Cumulative Arrivals (Veh), Cumulative Departures (veh), Queue Length (veh), Queue Length (ft), % Time Max Meter Rate");
+
 
             foreach (ResultsData result in results)
             {
