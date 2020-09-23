@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 
 
@@ -79,9 +80,13 @@ namespace QueueCalcs.DataStructures
         public string Label { get => _label; set => _label = value; }
         public NemaMovementNumbers NemaPhaseId { get => _nemaPhaseId; set => _nemaPhaseId = value; }
         public float ArrivalFlowRateVehPerHr { get => _arrivalFlowRateVehPerHr; set => _arrivalFlowRateVehPerHr = value; }
+        [XmlIgnore]
         public float ArrivalFlowRateVehPerMin { get => _arrivalFlowRateVehPerMin; set => _arrivalFlowRateVehPerMin = value; }
+        [XmlIgnore]
         public float ArrivalFlowRateVehPerCycle { get => _arrivalFlowRateVehPerCycle; set => _arrivalFlowRateVehPerCycle = value; }
+        [XmlIgnore]
         public float DepartureFlowRateVehPerHr { get => _departureFlowRateVehPerHr; set => _departureFlowRateVehPerHr = value; }
+        [XmlIgnore]
         public float DepartureFlowRateVehPerSec { get => _departureFlowRateVehPerSec; set => _departureFlowRateVehPerSec = value; }
         public bool IsSignalControlled { get => _isSignalControlled; set => _isSignalControlled = value; }
         

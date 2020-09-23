@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-
+using System.Xml.Serialization;
 
 namespace QueueCalcs.DataStructures
 {
@@ -18,7 +17,7 @@ namespace QueueCalcs.DataStructures
     {
         byte _id;
         //List<LaneData> _lanes;
-        byte[] _numLanes;  //0-shared, 1-left, 2-right, 3-total
+        int[] _numLanes;  //0-shared, 1-left, 2-right, 3-total
         float[] _queueStorageDistFt; //0-shared, 1-left, 2-right, 3-total
         float[] _queueStorageLaneFt; //0-shared, 1-left, 2-right, 3-total
         float[] _queueStorageCapacityVeh; //0-shared, 1-left, 2-right, 3-total
@@ -30,7 +29,7 @@ namespace QueueCalcs.DataStructures
 
         public OnRampData()
         {
-            _numLanes = new byte[4];
+            _numLanes = new int[4];
             _meter = new RampMeteringData();
             _queuingResults = new QueuingAnalysisResults();
             _queueStorageCapacityVeh = new float[4];
@@ -39,7 +38,7 @@ namespace QueueCalcs.DataStructures
         public OnRampData(byte id, byte numLanesSharedStorage, byte numLanesLeftTurnStorage, byte numLanesRightTurnStorage, float queueStorageSharedDistFt, float queueStorageLeftTurnDistFt, float queueStorageRightTurnDistFt, List<RampQueueDetector> queueDetectors)
         {
             _id = id;
-            _numLanes = new byte[4];
+            _numLanes = new int[4];
             _numLanes[(int)QueueStorage.Shared] = numLanesSharedStorage;
             _numLanes[(int)QueueStorage.Left] = numLanesLeftTurnStorage;
             _numLanes[(int)QueueStorage.Right] = numLanesRightTurnStorage;
@@ -80,15 +79,15 @@ namespace QueueCalcs.DataStructures
         }
 
         public byte Id { get => _id; set => _id = value; }
-        public byte[] NumLanes { get => _numLanes; set => _numLanes = value; }
+        public int[] NumLanes { get => _numLanes; set => _numLanes = value; }
+        public float[] QueueStorageDistFt { get => _queueStorageDistFt; set => _queueStorageDistFt = value; }
+        [XmlIgnore]
         public float[] QueueStorageLaneFt { get => _queueStorageLaneFt; set => _queueStorageLaneFt = value; }
         //public float QueueStorageRightTurnOnlyLaneFt { get => _queueStorageRightTurnOnlyLaneFt; set => _queueStorageRightTurnOnlyLaneFt = value; }
         //public float QueueStorageLeftTurnOnlyLaneFt { get => _queueStorageLeftTurnOnlyLaneFt; set => _queueStorageLeftTurnOnlyLaneFt = value; }
         public float[] QueueStorageCapacityVeh { get => _queueStorageCapacityVeh; set => _queueStorageCapacityVeh = value; }
         public RampMeteringData Meter { get => _meter; set => _meter = value; }
         public QueuingAnalysisResults QueuingResults { get => _queuingResults; set => _queuingResults = value; }        
-        
-        public float[] QueueStorageDistFt { get => _queueStorageDistFt; set => _queueStorageDistFt = value; }
         public List<RampQueueDetector> QueueDetectors { get => _queueDetectors; set => _queueDetectors = value; }
     }
 
@@ -131,6 +130,7 @@ namespace QueueCalcs.DataStructures
         public DetectorType Type { get => _type; set => _type = value; }
         public DetectorMovement Movement { get => _movement; set => _movement = value; }
         public float DistanceUpstreamFromMeterFt { get => _distanceUpstreamFromMeterFt; set => _distanceUpstreamFromMeterFt = value; }
+        [XmlIgnore]
         public float DistanceLaneFt { get => _distanceLaneFt; set => _distanceLaneFt = value; }
         
     }

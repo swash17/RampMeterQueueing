@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Xml.Serialization;
 
 namespace QueueCalcs.DataStructures
 {
@@ -88,7 +88,9 @@ namespace QueueCalcs.DataStructures
         public float[] TimingStageStartTimes { get => _timingStageStartTimes; set => _timingStageStartTimes = value; }
         public List<TimingStageData> TimingStages { get => _timingStages; set => _timingStages = value; }
         public float NumCyclesPerHour { get => _numCyclesPerHour; set => _numCyclesPerHour = value; }
+        [XmlIgnore]
         public float[] AvgArrivalsPerCycleVeh { get => _avgArrivalsPerCycleVeh; set => _avgArrivalsPerCycleVeh = value; }
+        [XmlIgnore]
         public int[] ArrivalsPerCycleVeh { get => _arrivalsPerCycleVeh; set => _arrivalsPerCycleVeh = value; }
     }
 
