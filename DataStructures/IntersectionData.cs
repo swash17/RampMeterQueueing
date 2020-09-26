@@ -35,7 +35,8 @@ namespace QueueCalcs.DataStructures
         }
 
         public byte Id { get => _id; set => _id = value; }
-        public List<IntersectionMovementData> Movements { get => _movements; set => _movements = value; }        
+        public List<IntersectionMovementData> Movements { get => _movements; set => _movements = value; }
+        [XmlIgnore] // Set to ignore since variable = 60 on Line 34 ABC
         public int FlowRateUpdateIntervalDefaultSec { get => _flowRateUpdateIntervalDefaultSec; set => _flowRateUpdateIntervalDefaultSec = value; }
         public OnRampData OnRamp { get => _onRamp; set => _onRamp = value; }
         public bool IsSignalControlled { get => _isSignalControlled; set => _isSignalControlled = value; }
@@ -71,7 +72,7 @@ namespace QueueCalcs.DataStructures
             _label = label;
             _nemaPhaseId = nemaPhaseId;
             _associatedRampId = associatedRampId;
-            _arrivalFlowRateVehPerHr = demandVolVehPerHr;
+            _arrivalFlowRateVehPerHr = demandVolVehPerHr; //is _arrivalFlowRateVehPerHr needed in input file if it is taking value from demandVolVehPerHr ? ABC
             _isSignalControlled = isSignalControlled;
         }
 

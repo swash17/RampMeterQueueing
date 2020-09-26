@@ -63,7 +63,7 @@ namespace QueueCalcs.DataStructures
         {
             int NumTimingStages = timingStages.Count;            
             _timingStages = timingStages;            
-
+            //ABC not sure if lengthSec should be taken from input file (TimingStageStartTimes as well)
             _lengthSec = 0;
             foreach (TimingStageData timingStage in timingStages)
             {
@@ -85,6 +85,7 @@ namespace QueueCalcs.DataStructures
         }
 
         public float LengthSec { get => _lengthSec; set => _lengthSec = value; }
+        [XmlIgnore]
         public float[] TimingStageStartTimes { get => _timingStageStartTimes; set => _timingStageStartTimes = value; }
         public List<TimingStageData> TimingStages { get => _timingStages; set => _timingStages = value; }
         public float NumCyclesPerHour { get => _numCyclesPerHour; set => _numCyclesPerHour = value; }
@@ -122,7 +123,7 @@ namespace QueueCalcs.DataStructures
 
             _id = id;
             _movements = movements;
-            _greenTime = refPhaseGreenTime;
+            _greenTime = re120fPhaseGreenTime;
             _lostTime = 5;
 
         }

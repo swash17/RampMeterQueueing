@@ -53,7 +53,7 @@ namespace QueueCalcs.DataStructures
             _queueStorageLaneFt[(int)QueueStorage.Left] = _queueStorageDistFt[(int)QueueStorage.Left] * _numLanes[(int)QueueStorage.Left];
             _queueStorageLaneFt[(int)QueueStorage.Right] = _queueStorageDistFt[(int)QueueStorage.Right] * _numLanes[(int)QueueStorage.Right];
 
-            _queueStorageCapacityVeh = new float[4];
+            _queueStorageCapacityVeh = new float[4]; // Still needed? Input file lists values as 0 and seems as something that would be calculated ABC
             _meter = new RampMeteringData();
             _queueDetectors = queueDetectors;  // new List<RampQueueDetector>();
             _queuingResults = new QueuingAnalysisResults();
@@ -165,19 +165,34 @@ namespace QueueCalcs.DataStructures
             _queueLengthFt = new float[4];
         }
 
+        //ABC
+        [XmlIgnore]
         public float[] ArrivalsPerSec { get => _arrivalsPerSec; set => _arrivalsPerSec = value; }
+        [XmlIgnore]
         public float[] NumVehsInQueue { get => _numVehsInQueue; set => _numVehsInQueue = value; }
+        [XmlIgnore]
         public float[] QueueLengthFt { get => _queueLengthFt; set => _queueLengthFt = value; }
+        [XmlIgnore]
         public float DepartFlowRateVehPerTimeStep { get => _departFlowRateVehPerTimeStep; set => _departFlowRateVehPerTimeStep = value; }
+        [XmlIgnore]
         public int DepartFlowRateVehPerHr { get => _departFlowRateVehPerHr; set => _departFlowRateVehPerHr = value; }
+        [XmlIgnore]
         public float QueueLengthVehPreviousTimeStep { get => _queueLengthVehPreviousTimeStep; set => _queueLengthVehPreviousTimeStep = value; }
+        [XmlIgnore]
         public float DeltaTimeStepQueueLengthVeh { get => _deltaTimeStepQueueLengthVeh; set => _deltaTimeStepQueueLengthVeh = value; }
+        [XmlIgnore]
         public byte ArrivalRateTimePeriodIndex { get => _arrivalRateTimePeriodIndex; set => _arrivalRateTimePeriodIndex = value; }
+        [XmlIgnore]
         public float CumulativeArrivals { get => _cumulativeArrivals; set => _cumulativeArrivals = value; }
+        [XmlIgnore]
         public float[] ArrivalsPerCycle { get => _arrivalsPerCycle; set => _arrivalsPerCycle = value; }
+        [XmlIgnore]
         public float VehServedPerTimeStep { get => _vehServedPerTimeStep; set => _vehServedPerTimeStep = value; }
+        [XmlIgnore]
         public float CumulativeDepartures { get => _cumulativeDepartures; set => _cumulativeDepartures = value; }
+        [XmlIgnore]
         public int[] ArrivalsPerHour { get => _arrivalsPerHour; set => _arrivalsPerHour = value; }
+        [XmlIgnore]
         public float[] PctQueueStorageOccupied { get => _pctQueueStorageOccupied; set => _pctQueueStorageOccupied = value; }
     }
 
