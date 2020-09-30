@@ -139,6 +139,7 @@ namespace QueueCalcs.DataStructures
         //ABC can this be removed from input file since movement data is provided earlier in input file? (Movement data given in lines 6-27 in input file)
         public List<IntersectionMovementData> Movements { get => _movements; set => _movements = value; }
         //ABC not sure if this is needed in input file since it has no references (mentioned only below and in line 107)
+        [XmlIgnore]
         public float RelativeCycleStartTime { get => _relativeCycleStartTime; set => _relativeCycleStartTime = value; }
         //ABC suppressed LostTime since it is fixed above
         [XmlIgnore]
