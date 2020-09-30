@@ -25,7 +25,9 @@ namespace QueueCalcs.DataStructures
         public int AddMeteringRateVehPerHr { get => _addMeteringRateVehPerHr; set => _addMeteringRateVehPerHr = value; }
         [XmlIgnore]
         public int MeteringRateMaxVehPerHr { get => _meteringRateMaxVehPerHr; set => _meteringRateMaxVehPerHr = value; }
+        [XmlIgnore]
         public int NumTimeStepsAtMaxMeteringRate { get => _numTimeStepsAtMaxMeteringRate; set => _numTimeStepsAtMaxMeteringRate = value; }
+        [XmlIgnore]
         public float PctTimeMeteringRateMax { get => _pctTimeMeteringRateMax; set => _pctTimeMeteringRateMax = value; }
 
         //public float IntermediateQueueDetectorLengthFt { get => _intermediateQueueDetectorLengthFt; set => _intermediateQueueDetectorLengthFt = value; }

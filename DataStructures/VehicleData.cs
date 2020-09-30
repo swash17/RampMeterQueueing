@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-
+using System.Xml.Serialization;
 
 namespace QueueCalcs
 {
@@ -35,17 +34,28 @@ namespace QueueCalcs
             SetValues(_stopGapValues, _smallAutoLengthFt, _largeAutoLengthFt, _smallTruckLengthFt, _largeTruckLengthFt, traffic);
         }
 
-
+        //ABC suppressing vehicle length variables since they appear to be set above
+        [XmlIgnore]
         public float[] SmallAutoLengthFt { get => _smallAutoLengthFt; set => _smallAutoLengthFt = value; }
+        [XmlIgnore]
         public float[] LargeAutoLengthFt { get => _largeAutoLengthFt; set => _largeAutoLengthFt = value; }
+        [XmlIgnore]
         public float[] SmallTruckLengthFt { get => _smallTruckLengthFt; set => _smallTruckLengthFt = value; }
+        [XmlIgnore]
         public float[] LargeTruckLengthFt { get => _largeTruckLengthFt; set => _largeTruckLengthFt = value; }
+        [XmlIgnore]
         public float AvgSmallAutoLengthFt { get => _avgSmallAutoLengthFt; set => _avgSmallAutoLengthFt = value; }
+        [XmlIgnore]
         public float AvgLargeAutoLengthFt { get => _avgLargeAutoLengthFt; set => _avgLargeAutoLengthFt = value; }
+        [XmlIgnore]
         public float AvgSmallTruckLengthFt { get => _avgSmallTruckLengthFt; set => _avgSmallTruckLengthFt = value; }
+        [XmlIgnore]
         public float AvgLargeTruckLengthFt { get => _avgLargeTruckLengthFt; set => _avgLargeTruckLengthFt = value; }
+        [XmlIgnore]
         public float AvgVehLengthFt { get => _avgVehLengthFt; set => _avgVehLengthFt = value; }
+        [XmlIgnore]
         public float[] StopGapValues { get => _stopGapValues; set => _stopGapValues = value; }
+        [XmlIgnore]
         public float AvgVehicleSpacingFt { get => _avgVehicleSpacingFt; set => _avgVehicleSpacingFt = value; }
 
 

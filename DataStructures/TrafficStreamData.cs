@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 
 namespace QueueCalcs
@@ -52,15 +53,23 @@ namespace QueueCalcs
 
         }
 
+        //ABC setting several variables below to be ignored since they are fixed above
+        // ABC also I'm not sure why, but the arrival variables below aren't ignored but they don't appear in input file anyways
+        [XmlIgnore]
         public ArrivalDistributionType ArrivalDist { get => _arrivalDist; set => _arrivalDist = value; }
         public float RampPropHeavyVeh { get => _rampPropHeavyVeh; set => _rampPropHeavyVeh = value; }
+        [XmlIgnore]
         public float PropSmallAuto { get => _propSmallAuto; set => _propSmallAuto = value; }
+        [XmlIgnore]
         public float PropLargeAuto { get => _propLargeAuto; set => _propLargeAuto = value; }
+        [XmlIgnore]
         public float PropSmallTruck { get => _propSmallTruck; set => _propSmallTruck = value; }
+        [XmlIgnore]
         public float PropLargeTruck { get => _propLargeTruck; set => _propLargeTruck = value; }
         //public int[] ArrivalFlowRateVPH { get => _arrivalFlowRateVPH; set => _arrivalFlowRateVPH = value; }
         public int[] ArrivalFlowRateTotalVPH { get => _arrivalFlowRateTotalVPH; set => _arrivalFlowRateTotalVPH = value; }
         public float[] ArrivalFlowRateVehPerSec { get => _arrivalFlowRateVehPerSec; set => _arrivalFlowRateVehPerSec = value; }
+        //ABC variable is in input file but isn't referenced anywhere else
         public AllowedRampEntryMovements AllowedMovements { get => _allowedMovements; set => _allowedMovements = value; }
         public int[] AvgArrivalsPerCycleVeh { get => _avgArrivalsPerCycleVeh; set => _avgArrivalsPerCycleVeh = value; }
         public int[] ArrivalsPerCycleVeh { get => _arrivalsPerCycleVeh; set => _arrivalsPerCycleVeh = value; }

@@ -84,10 +84,12 @@ namespace QueueCalcs.DataStructures
             _arrivalsPerCycleVeh = new int[ArraySize];
         }
 
+        [XmlIgnore] //ABC hiding LengthSec since it is calculated above
         public float LengthSec { get => _lengthSec; set => _lengthSec = value; }
         [XmlIgnore]
         public float[] TimingStageStartTimes { get => _timingStageStartTimes; set => _timingStageStartTimes = value; }
         public List<TimingStageData> TimingStages { get => _timingStages; set => _timingStages = value; }
+        [XmlIgnore] //ABC suppressed since variable is calculated using lengthSec
         public float NumCyclesPerHour { get => _numCyclesPerHour; set => _numCyclesPerHour = value; }
         [XmlIgnore]
         public float[] AvgArrivalsPerCycleVeh { get => _avgArrivalsPerCycleVeh; set => _avgArrivalsPerCycleVeh = value; }
@@ -123,7 +125,7 @@ namespace QueueCalcs.DataStructures
 
             _id = id;
             _movements = movements;
-            _greenTime = re120fPhaseGreenTime;
+            _greenTime = refPhaseGreenTime; //ABC should _greenTime = GreenTime (variable from input file)?
             _lostTime = 5;
 
         }
@@ -134,8 +136,12 @@ namespace QueueCalcs.DataStructures
         //public List<NemaMovementNumbers> CyclePhaseSequence { get => _cyclePhaseSequence; set => _cyclePhaseSequence = value; }
         public byte Id { get => _id; set => _id = value; }
         public float GreenTime { get => _greenTime; set => _greenTime = value; }
-        public List<IntersectionMovementData> Movements { get => _movements; set => _movements = value; }        
+        //ABC can this be removed from input file since movement data is provided earlier in input file? (Movement data given in lines 6-27 in input file)
+        public List<IntersectionMovementData> Movements { get => _movements; set => _movements = value; }
+        //ABC not sure if this is needed in input file since it has no references (mentioned only below and in line 107)
         public float RelativeCycleStartTime { get => _relativeCycleStartTime; set => _relativeCycleStartTime = value; }
+        //ABC suppressed LostTime since it is fixed above
+        [XmlIgnore]
         public float LostTime { get => _lostTime; set => _lostTime = value; }
         public int[] AvgDeparturesPerCycleVeh { get => _avgDeparturesPerCycleVeh; set => _avgDeparturesPerCycleVeh = value; }
     }
