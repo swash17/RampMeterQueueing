@@ -2,93 +2,136 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
+
 namespace QueueCalcs.DataStructures
 {
 
-    public enum QueueStorage : int
+    public enum SegmentType : int
     {
         Shared = 0,
-        Left = 1,
-        Right = 2,
+        LeftTurn = 1,
+        RightTurn = 2,
         Thru = 3
     }
+
+    public enum QueuedVehMovement : int
+    {
+        Left = 0,
+        Right = 1,
+        Thru = 2,        
+        Total = 3,
+    }
+
+
+    public class OnRampSegmentData
+    {
+        byte _id;
+        SegmentType _type;
+        byte _numLanes;
+        //float _numVehiclesQueued;
+        float _queueStorageDistFt;
+        float _queueStorageLaneFt;
+        float _queueStorageCapacityVeh;
+        float _queueStorageAvailableLaneFt;
+        FlowRateData _flowRate;
+        QueuingAnalysisResults _queuingResults;
+
+
+        public OnRampSegmentData()
+        { }
+
+        public OnRampSegmentData(byte id, SegmentType type, byte numLanes, float queueStorageDistFt) //, List<RampQueueDetector> queueDetectors)
+        {
+            _id = id;
+            _type = type;
+            _numLanes = numLanes;
+            _queueStorageDistFt = queueStorageDistFt;
+            _queueStorageLaneFt = _queueStorageDistFt * _numLanes;
+            _flowRate = new FlowRateData();
+            _queuingResults = new QueuingAnalysisResults();
+        }
+
+        [XmlAttribute("ID")]
+        public byte Id { get => _id; set => _id = value; }
+        public SegmentType Type { get => _type; set => _type = value; }
+        public byte NumLanes { get => _numLanes; set => _numLanes = value; }
+        //public float NumVehiclesQueued { get => _numVehiclesQueued; set => _numVehiclesQueued = value; }
+        public float QueueStorageDistPerLaneFt { get => _queueStorageDistFt; set => _queueStorageDistFt = value; }
+        [XmlIgnore]
+        public float QueueStorageLaneFt { get => _queueStorageLaneFt; set => _queueStorageLaneFt = value; }
+        [XmlIgnore]
+        public float QueueStorageCapacityVeh { get => _queueStorageCapacityVeh; set => _queueStorageCapacityVeh = value; }
+        [XmlIgnore]
+        public float QueueStorageAvailableLaneFt { get => _queueStorageAvailableLaneFt; set => _queueStorageAvailableLaneFt = value; }
+        [XmlIgnore]
+        public FlowRateData FlowRate { get => _flowRate; set => _flowRate = value; }
+        [XmlIgnore]
+        public QueuingAnalysisResults Results { get => _queuingResults; set => _queuingResults = value; }
+
+    }
+
 
     public class OnRampData
     {
         byte _id;
-        //List<LaneData> _lanes;
-        int[] _numLanes;  //0-shared, 1-left, 2-right, 3-total
-        float[] _queueStorageDistFt; //0-shared, 1-left, 2-right, 3-total
-        float[] _queueStorageLaneFt; //0-shared, 1-left, 2-right, 3-total
-        float[] _queueStorageCapacityVeh; //0-shared, 1-left, 2-right, 3-total
+        string _label;
+        List<OnRampSegmentData> _segments;        
         RampMeteringData _meter;
         List<RampQueueDetector> _queueDetectors;
-        QueuingAnalysisResults _queuingResults;
-
-        
+                
 
         public OnRampData()
         {
-            _numLanes = new int[4];
-            _meter = new RampMeteringData();
-            _queuingResults = new QueuingAnalysisResults();
-            _queueStorageCapacityVeh = new float[4];
+            _segments = new List<OnRampSegmentData>();
+            _queueDetectors = new List<RampQueueDetector>();
+            _meter = new RampMeteringData();            
         }
-
-        public OnRampData(byte id, byte numLanesSharedStorage, byte numLanesLeftTurnStorage, byte numLanesRightTurnStorage, float queueStorageSharedDistFt, float queueStorageLeftTurnDistFt, float queueStorageRightTurnDistFt, List<RampQueueDetector> queueDetectors)
+                
+        
+        public OnRampData(byte id, string label, List<OnRampSegmentData> segments, List<RampQueueDetector> queueDetectors)
         {
             _id = id;
-            _numLanes = new int[4];
-            _numLanes[(int)QueueStorage.Shared] = numLanesSharedStorage;
-            _numLanes[(int)QueueStorage.Left] = numLanesLeftTurnStorage;
-            _numLanes[(int)QueueStorage.Right] = numLanesRightTurnStorage;
+            _label = label;
+            _segments = segments;            
+            _queueDetectors = queueDetectors;
 
-            _queueStorageDistFt = new float[4];
-            _queueStorageDistFt[(int)QueueStorage.Shared] = queueStorageSharedDistFt;
-            _queueStorageDistFt[(int)QueueStorage.Left] = queueStorageLeftTurnDistFt;
-            _queueStorageDistFt[(int)QueueStorage.Right] = queueStorageRightTurnDistFt;
+            _meter = new RampMeteringData(240, 180, 900);            
 
-            _queueStorageLaneFt = new float[4];
-            _queueStorageLaneFt[(int)QueueStorage.Shared] = _queueStorageDistFt[(int)QueueStorage.Shared] * _numLanes[(int)QueueStorage.Shared];
-            _queueStorageLaneFt[(int)QueueStorage.Left] = _queueStorageDistFt[(int)QueueStorage.Left] * _numLanes[(int)QueueStorage.Left];
-            _queueStorageLaneFt[(int)QueueStorage.Right] = _queueStorageDistFt[(int)QueueStorage.Right] * _numLanes[(int)QueueStorage.Right];
+            int IntQDetIndex = _queueDetectors.FindIndex(detector => detector.Movement.Equals(DetectorMovement.All));
+            int AdvQDetLeftIndex = _queueDetectors.FindIndex(detector => detector.Movement.Equals(DetectorMovement.Left));
+            int AdvQDetRightDetectorIndex = _queueDetectors.FindIndex(detector => detector.Movement.Equals(DetectorMovement.Right));
 
-            _queueStorageCapacityVeh = new float[4]; // Still needed? Input file lists values as 0 and seems as something that would be calculated ABC
-            _meter = new RampMeteringData();
-            _queueDetectors = queueDetectors;  // new List<RampQueueDetector>();
-            _queuingResults = new QueuingAnalysisResults();
+            int SharedSegmentIndex = _segments.FindIndex(segment => segment.Type.Equals(SegmentType.Shared));
+            int LeftTurnSegmentIndex = _segments.FindIndex(segment => segment.Type.Equals(SegmentType.LeftTurn));
+            int RightTurnSegmentIndex = _segments.FindIndex(segment => segment.Type.Equals(SegmentType.RightTurn));
 
             foreach (RampQueueDetector queueDetector in _queueDetectors)
             {
-                if (queueDetector.DistanceUpstreamFromMeterFt < _queueStorageDistFt[0])
+                if (queueDetector.Movement == DetectorMovement.All)
                 {
-                    queueDetector.DistanceLaneFt = queueDetector.DistanceUpstreamFromMeterFt * _numLanes[(int)QueueStorage.Shared];
+                    queueDetector.DistanceLaneFt = queueDetector.DistanceUpstreamFromMeterFt * _segments[SharedSegmentIndex].NumLanes;
                 }
-                else
+                else if (queueDetector.Movement == DetectorMovement.Left)
                 {
-                    //if (queueDetector.Movement == DetectorMovement.Left)
-                    queueDetector.DistanceLaneFt = (queueDetector.DistanceUpstreamFromMeterFt - _queueStorageDistFt[(int)QueueStorage.Shared]) + _queueStorageLaneFt[(int)QueueStorage.Shared];
+                    queueDetector.DistanceLaneFt = (queueDetector.DistanceUpstreamFromMeterFt - _segments[LeftTurnSegmentIndex].QueueStorageDistPerLaneFt) + _segments[LeftTurnSegmentIndex].QueueStorageLaneFt;
                 }
-
-                //_intermediateQueueDetectorDistanceLaneFt = _queueStorageLaneFt[0] * _numLanes[0] + _queueStorageLaneFt[1] * _numLanes[1] + _queueStorageLaneFt[2] * _numLanes[2];
+                else if (queueDetector.Movement == DetectorMovement.Right)
+                {                    
+                    queueDetector.DistanceLaneFt = (queueDetector.DistanceUpstreamFromMeterFt - _segments[RightTurnSegmentIndex].QueueStorageDistPerLaneFt) + _segments[RightTurnSegmentIndex].QueueStorageLaneFt;
+                }
             }
-
            
             //IntermediateQueueDetectorLengthFt = 6;
             //AdvanceQueueDetectorLengthFt = 6;
         }
 
+        [XmlAttribute("ID")]
         public byte Id { get => _id; set => _id = value; }
-        public int[] NumLanes { get => _numLanes; set => _numLanes = value; }
-        public float[] QueueStorageDistFt { get => _queueStorageDistFt; set => _queueStorageDistFt = value; }
-        [XmlIgnore]
-        public float[] QueueStorageLaneFt { get => _queueStorageLaneFt; set => _queueStorageLaneFt = value; }
-        //public float QueueStorageRightTurnOnlyLaneFt { get => _queueStorageRightTurnOnlyLaneFt; set => _queueStorageRightTurnOnlyLaneFt = value; }
-        //public float QueueStorageLeftTurnOnlyLaneFt { get => _queueStorageLeftTurnOnlyLaneFt; set => _queueStorageLeftTurnOnlyLaneFt = value; }
-        public float[] QueueStorageCapacityVeh { get => _queueStorageCapacityVeh; set => _queueStorageCapacityVeh = value; }
+        public string Label { get => _label; set => _label = value; }        
         public RampMeteringData Meter { get => _meter; set => _meter = value; }
-        public QueuingAnalysisResults QueuingResults { get => _queuingResults; set => _queuingResults = value; }        
+        public List<OnRampSegmentData> Segments { get => _segments; set => _segments = value; }
         public List<RampQueueDetector> QueueDetectors { get => _queueDetectors; set => _queueDetectors = value; }
+               
     }
 
     public enum DetectorType
@@ -107,49 +150,54 @@ namespace QueueCalcs.DataStructures
 
     public class RampQueueDetector
     {
+        byte _id;
         DetectorType _type;
         DetectorMovement _movement;
         float _distanceUpstreamFromMeterFt;
         float _distanceLaneFt;
         //float _lengthFt;
+        SegmentType _includedInSegType;
 
         public RampQueueDetector()
         {
             //de/serialization
         }
 
-        public RampQueueDetector(DetectorType type, DetectorMovement movement, float distUpstreamFromMeterFt)
+        public RampQueueDetector(byte id, DetectorType type, DetectorMovement movement, float distUpstreamFromMeterFt) //, SegmentType includedInSegType)
         {
+            _id = id;
             _type = type;
             _movement = movement;
             _distanceUpstreamFromMeterFt = distUpstreamFromMeterFt;             // From ramp meter stop bar
-
-            
+            //_includedInSegType = includedInSegType;
         }
 
+        [XmlAttribute("ID")]
+        public byte Id { get => _id; set => _id = value; }
         public DetectorType Type { get => _type; set => _type = value; }
         public DetectorMovement Movement { get => _movement; set => _movement = value; }
         public float DistanceUpstreamFromMeterFt { get => _distanceUpstreamFromMeterFt; set => _distanceUpstreamFromMeterFt = value; }
         [XmlIgnore]
         public float DistanceLaneFt { get => _distanceLaneFt; set => _distanceLaneFt = value; }
-        
+        public SegmentType IncludedInSegType { get => _includedInSegType; set => _includedInSegType = value; }
     }
 
     public class QueuingAnalysisResults
     {
-        float[] _arrivalsPerCycle;     //indexed by timing stage
-        int[] _arrivalsPerHour;
-        float[] _arrivalsPerSec;  //0-left, 1-thru, 2-right, 3-total
+        //float[] _arrivalsPerCycle;     //indexed by timing stage
+        //int[] _arrivalsPerHour;
+        float[] _arrivalsPerTimeStep;  //0-left, 1-thru, 2-right, 3-total
 
-        float _cumulativeArrivals;
+        float[] _cumulativeArrivals;
         float _vehServedPerTimeStep;
         int _departFlowRateVehPerHr;
         float _departFlowRateVehPerTimeStep;
         float _cumulativeDepartures;
 
-        float[] _numVehsInQueue;   //0-left, 1-thru, 2-right, 3-total
-        float[] _queueLengthFt;    //0-left, 1-thru, 2-right, 3-total
-        float[] _pctQueueStorageOccupied; //0-left, 1-thru, 2-right, 3-total
+        float[] _numVehsInQueue;  //indexed with the enum 'QueuedVehMovement' (0-left, 1-thru, 2-right, 3-total)
+        float[] _queueLengthFt;   //indexed with the enum 'QueuedVehMovement'
+        float[] _queueLengthFtPerLane;
+        float[] _pctQueueStorageOccupied; //indexed with the enum 'QueuedVehMovement'
 
         float _queueLengthVehPreviousTimeStep;
         float _deltaTimeStepQueueLengthVeh;
@@ -158,20 +206,25 @@ namespace QueueCalcs.DataStructures
 
         public QueuingAnalysisResults()
         {
-            _arrivalsPerCycle = new float[4];
-            _arrivalsPerSec = new float[4];
-            _arrivalsPerHour = new int[4];
+            //_arrivalsPerCycle = new float[4];            
+            // _arrivalsPerHour = new int[4];
+            _arrivalsPerTimeStep = new float[4];
             _numVehsInQueue = new float[4];
             _queueLengthFt = new float[4];
+            _queueLengthFtPerLane = new float[4];
+            _pctQueueStorageOccupied = new float[4];
+            _cumulativeArrivals = new float[4];
         }
 
-        //ABC
+        //to-do: remove XmlIgnore statements from here and just add to QueuingAnalysisResults where it is referenced from other classes
         [XmlIgnore]
-        public float[] ArrivalsPerSec { get => _arrivalsPerSec; set => _arrivalsPerSec = value; }
+        public float[] ArrivalsPerTimeStep { get => _arrivalsPerTimeStep; set => _arrivalsPerTimeStep = value; }
         [XmlIgnore]
         public float[] NumVehsInQueue { get => _numVehsInQueue; set => _numVehsInQueue = value; }
         [XmlIgnore]
         public float[] QueueLengthFt { get => _queueLengthFt; set => _queueLengthFt = value; }
+        [XmlIgnore]
+        public float[] QueueLengthFtPerLane { get => _queueLengthFtPerLane; set => _queueLengthFtPerLane = value; }
         [XmlIgnore]
         public float DepartFlowRateVehPerTimeStep { get => _departFlowRateVehPerTimeStep; set => _departFlowRateVehPerTimeStep = value; }
         [XmlIgnore]
@@ -183,17 +236,18 @@ namespace QueueCalcs.DataStructures
         [XmlIgnore]
         public byte ArrivalRateTimePeriodIndex { get => _arrivalRateTimePeriodIndex; set => _arrivalRateTimePeriodIndex = value; }
         [XmlIgnore]
-        public float CumulativeArrivals { get => _cumulativeArrivals; set => _cumulativeArrivals = value; }
-        [XmlIgnore]
-        public float[] ArrivalsPerCycle { get => _arrivalsPerCycle; set => _arrivalsPerCycle = value; }
+        public float[] CumulativeArrivals { get => _cumulativeArrivals; set => _cumulativeArrivals = value; }
+        //[XmlIgnore]
+        //public float[] ArrivalsPerCycle { get => _arrivalsPerCycle; set => _arrivalsPerCycle = value; }
         [XmlIgnore]
         public float VehServedPerTimeStep { get => _vehServedPerTimeStep; set => _vehServedPerTimeStep = value; }
         [XmlIgnore]
         public float CumulativeDepartures { get => _cumulativeDepartures; set => _cumulativeDepartures = value; }
-        [XmlIgnore]
-        public int[] ArrivalsPerHour { get => _arrivalsPerHour; set => _arrivalsPerHour = value; }
+        //[XmlIgnore]
+        //public int[] ArrivalsPerHour { get => _arrivalsPerHour; set => _arrivalsPerHour = value; }
         [XmlIgnore]
         public float[] PctQueueStorageOccupied { get => _pctQueueStorageOccupied; set => _pctQueueStorageOccupied = value; }
+        
     }
 
 }

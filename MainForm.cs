@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using QueueCalcs.DataStructures;
 
 
@@ -7,9 +8,10 @@ namespace QueueCalcs
 {
     public partial class MainForm : Form
     {
-        InterchangeData Interchange;
         //string FileName = @"X:\OneDrive\Software Projects\QueuingCalcs\Test.xml";
         string FileName = @"..\..\..\InputData.xml";
+        List<InterchangeIntersectionData> Intersections;
+        byte InterchangeSelection = 1;
 
         public MainForm()
         {
@@ -17,37 +19,55 @@ namespace QueueCalcs
         }
 
         private void btnStart_Click(object sender, EventArgs e)
-        {
-            if (Interchange == null)
+        {            
+
+            if (Intersections == null)
             {
                 //MessageBox.Show("Input data file was not opened, so simulation will be run with default values.", "Input Data Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 rtbMessages.Text = "Input data file was not opened, so simulation was run with default values.";
-                Interchange = CreateInterchange.DDI();
+
+                if (InterchangeSelection == 1)
+                    Intersections = CreateOnramp.TightDiamond();
+                else
+                    Intersections = CreateOnramp.DDI();
+                
                 btnStart.Text = "Queuing Analysis (Default Values) Ran";
             }
             else
             {
                 btnStart.Text = "Queuing Analysis (Loaded Values) Ran";
             }
-            QueueLength.CalculateQueLength(Interchange);
+
+            if (InterchangeSelection == 1)
+                QueueAnalysis.SingleRampSegment(Intersections);
+            else
+                QueueAnalysis.MultipleRampSegments(Intersections);
+
         }
 
         private void btnWriteDataFile_Click(object sender, EventArgs e)
-        {
-            if (Interchange == null)
-                //Interchange = new InterchangeData();
-                Interchange = CreateInterchange.DDI();
+        {            
+
+            if (Intersections == null)
+            {
+                if (InterchangeSelection == 1)
+                    Intersections = CreateOnramp.TightDiamond();
+                else
+                    Intersections = CreateOnramp.DDI();
+            }                
             else
                 btnWriteDataFile.Text = "Ouput Successful";
-            FileInputOutput.SerializeInputData(FileName, Interchange);
+
+            FileInputOutput.SerializeInputData(FileName, Intersections);
         }
 
         private void btnReadDataFile_Click(object sender, EventArgs e)
         {
             btnReadDataFile.Text = "Input Successful";
-            Interchange = FileInputOutput.DeserializeInputData(FileName);
+            Intersections = FileInputOutput.DeserializeInputData(FileName);
 
-            Interchange.Vehicles.SetValues(Interchange.Vehicles.StopGapValues, Interchange.Vehicles.SmallAutoLengthFt, Interchange.Vehicles.LargeAutoLengthFt, Interchange.Vehicles.SmallTruckLengthFt, Interchange.Vehicles.LargeTruckLengthFt, Interchange.Traffic);
+            foreach (InterchangeIntersectionData intersection in Intersections)
+                intersection.Vehicles.SetValues(intersection.Vehicles.StopGapValues, intersection.Vehicles.SmallAutoLengthFt, intersection.Vehicles.LargeAutoLengthFt, intersection.Vehicles.SmallTruckLengthFt, intersection.Vehicles.LargeTruckLengthFt, intersection.Traffic);
         }
     }
 }

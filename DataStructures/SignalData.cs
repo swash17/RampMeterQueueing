@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
+
 namespace QueueCalcs.DataStructures
 {
     public enum NemaMovementNumbers
@@ -20,19 +21,16 @@ namespace QueueCalcs.DataStructures
         SBRight = 14
     }
 
-    public enum TurnType
+    public enum TurnMovementType
     {
         Left = 0,
         Thru = 1,
-        Right = 2,
-        All = 3
-    }
-        
+        Right = 2,        
+    }        
 
     public class SignalData
     {
-        CycleData _cycle;
-        
+        CycleData _cycle;        
 
         public SignalData()
         {
@@ -61,22 +59,18 @@ namespace QueueCalcs.DataStructures
 
         public CycleData(List<TimingStageData> timingStages)
         {
-            int NumTimingStages = timingStages.Count;            
-            _timingStages = timingStages;            
-            //ABC not sure if lengthSec should be taken from input file (TimingStageStartTimes as well)
+            int NumTimingStages = timingStages.Count;
+            _timingStages = timingStages;
             _lengthSec = 0;
+
             foreach (TimingStageData timingStage in timingStages)
-            {
-                _lengthSec += (timingStage.GreenTime + timingStage.LostTime);
-            }
-            
+                _lengthSec += timingStage.LengthSec;
+
             _timingStageStartTimes = new float[NumTimingStages];
             float CycleRefStartTime = 0;
-           _timingStageStartTimes[0] = CycleRefStartTime;
-           for (int i = 1; i < NumTimingStages; i++)
-           {
-               _timingStageStartTimes[i] = timingStages[i].LostTime + _timingStageStartTimes[i - 1] + timingStages[i].GreenTime;
-           }
+            _timingStageStartTimes[0] = CycleRefStartTime;
+            for (int i = 1; i < NumTimingStages; i++)
+                _timingStageStartTimes[i] = _timingStageStartTimes[i - 1] + timingStages[i - 1].LengthSec;
 
             _avgArrivalsPerCycleVeh = new float[NumTimingStages];
             _numCyclesPerHour = 3600 / _lengthSec;
@@ -84,10 +78,12 @@ namespace QueueCalcs.DataStructures
             _arrivalsPerCycleVeh = new int[ArraySize];
         }
 
-        [XmlIgnore] //ABC hiding LengthSec since it is calculated above
+        [XmlIgnore]
         public float LengthSec { get => _lengthSec; set => _lengthSec = value; }
         [XmlIgnore]
         public float[] TimingStageStartTimes { get => _timingStageStartTimes; set => _timingStageStartTimes = value; }
+
+        //[XmlElement(ElementName = "")]
         public List<TimingStageData> TimingStages { get => _timingStages; set => _timingStages = value; }
         [XmlIgnore] //ABC suppressed since variable is calculated using lengthSec
         public float NumCyclesPerHour { get => _numCyclesPerHour; set => _numCyclesPerHour = value; }
@@ -97,54 +93,43 @@ namespace QueueCalcs.DataStructures
         public int[] ArrivalsPerCycleVeh { get => _arrivalsPerCycleVeh; set => _arrivalsPerCycleVeh = value; }
     }
 
+
+    [XmlRoot(ElementName = "TimingStage")]
     public class TimingStageData
-    {
-        //float[] _phaseGreenTime;  //0-left/approach 1, 1-thru/approach 2, 2-right/approach 3; the three on-ramp feeding movements        
-        //List<PhaseTimingData> _phases;
-        //List<NemaMovementNumbers> _cyclePhaseSequence;
-        byte _id;
-        
+    {        
+        byte _id;        
         float _greenTime;
-        float _relativeCycleStartTime;
         float _lostTime;
-        int[] _avgDeparturesPerCycleVeh;  //0-left, 1-thru, 2-right, 3-total
+        float _lengthSec;
+        float _relativeCycleStartTime;
+        
+        //int[] _avgDeparturesPerCycleVeh;  //0-left, 1-thru, 2-right, 3-total
         List<IntersectionMovementData> _movements;
 
         public TimingStageData()
         { }
 
-        public TimingStageData(byte id, List<IntersectionMovementData> movements, float refPhaseGreenTime)
+        public TimingStageData(byte id, List<IntersectionMovementData> movements, float greenTime, float lostTime)
         {
-            /*
-            _phaseGreenTime = new float[3] { 45f, 15f, 15f };
-            _cyclePhaseSequence = new List<NemaMovementNumbers>();
-            _cyclePhaseSequence.Add(NemaMovementNumbers.EBThru);
-            _cyclePhaseSequence.Add(NemaMovementNumbers.WBLeft);
-            _cyclePhaseSequence.Add(NemaMovementNumbers.SBThru);
-            */
-
             _id = id;
             _movements = movements;
-            _greenTime = refPhaseGreenTime; //ABC should _greenTime = GreenTime (variable from input file)?
-            _lostTime = 5;
-
+            _greenTime = greenTime;
+            _lostTime = lostTime;
+            _lengthSec = _greenTime + _lostTime;
         }
 
-        //public float[] PhaseGreenTime { get => _phaseGreenTime; set => _phaseGreenTime = value; }
-        //public NemaMovementNumbers NemaID { get => _nemaID; set => _nemaID = value; }        
-
-        //public List<NemaMovementNumbers> CyclePhaseSequence { get => _cyclePhaseSequence; set => _cyclePhaseSequence = value; }
+        [XmlAttribute("ID")]
         public byte Id { get => _id; set => _id = value; }
         public float GreenTime { get => _greenTime; set => _greenTime = value; }
-        //ABC can this be removed from input file since movement data is provided earlier in input file? (Movement data given in lines 6-27 in input file)
+        public float LostTime { get => _lostTime; set => _lostTime = value; }
+        [XmlIgnore]
+        public float LengthSec { get => _lengthSec; set => _lengthSec = value; }        
         public List<IntersectionMovementData> Movements { get => _movements; set => _movements = value; }
-        //ABC not sure if this is needed in input file since it has no references (mentioned only below and in line 107)
         [XmlIgnore]
         public float RelativeCycleStartTime { get => _relativeCycleStartTime; set => _relativeCycleStartTime = value; }
-        //ABC suppressed LostTime since it is fixed above
-        [XmlIgnore]
-        public float LostTime { get => _lostTime; set => _lostTime = value; }
-        public int[] AvgDeparturesPerCycleVeh { get => _avgDeparturesPerCycleVeh; set => _avgDeparturesPerCycleVeh = value; }
+        //[XmlIgnore]
+        //public int[] AvgDeparturesPerCycleVeh { get => _avgDeparturesPerCycleVeh; set => _avgDeparturesPerCycleVeh = value; }
+        
     }
 
     

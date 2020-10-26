@@ -36,6 +36,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -62,13 +64,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateInterchange.cs" />
-    <Compile Include="DataStructures\IntersectionData.cs" />
+    <Compile Include="CreateOnramp.cs" />
+    <Compile Include="DataStructures\InterchangeIntersectionData.cs" />
     <Compile Include="DataStructures\OnRampData.cs" />
     <Compile Include="DataStructures\RampMeteringData.cs" />
+    <Compile Include="QueueDetectorChecks.cs" />
     <Compile Include="QueuingAnalysis.cs" />
     <Compile Include="FileIO.cs" />
-    <Compile Include="DataStructures\InterchangeData.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,7 +83,6 @@
     <Compile Include="DataStructures\ResultsData.cs" />
     <Compile Include="DataStructures\SignalData.cs" />
     <Compile Include="DataStructures\TrafficStreamData.cs" />
-    <Compile Include="DataStructures\VehicleData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
