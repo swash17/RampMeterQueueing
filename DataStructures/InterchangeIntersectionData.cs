@@ -67,6 +67,7 @@ namespace QueueCalcs.DataStructures
 
         [XmlAttribute("ID")]
         public byte Id { get => _id; set => _id = value; }
+        [XmlIgnore]
         public List<IntersectionMovementData> Movements { get => _movements; set => _movements = value; }
         [XmlIgnore]
         public int FlowRateUpdateIntervalDefaultSec { get => _flowRateUpdateIntervalDefaultSec; set => _flowRateUpdateIntervalDefaultSec = value; }

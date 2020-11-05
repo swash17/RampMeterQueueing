@@ -26,14 +26,14 @@ namespace QueueCalcs
                 {
                     if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.AdvanceQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.Left)
                     {
-                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Left] > onRamp.QueueDetectors[DetIndex].DistanceLaneFt)
+                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Left] > onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt)
                         {
                             IsAdvanceQdetActive = true;
                         }
                     }
                     if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.AdvanceQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.Right)
                     {
-                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Right] > onRamp.QueueDetectors[DetIndex].DistanceLaneFt)
+                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Right] > onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt)
                         {
                             IsAdvanceQdetActive = true;
                         }
@@ -46,7 +46,7 @@ namespace QueueCalcs
                 {
                     if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.AdvanceQueue) // && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.All)
                     {
-                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Total] > onRamp.QueueDetectors[DetIndex].DistanceLaneFt)
+                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Total] > onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt)
                         {
                             IsAdvanceQdetActive = true;
                         }
@@ -66,14 +66,14 @@ namespace QueueCalcs
                     {
                         if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.IntermediateQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.Left)
                         {
-                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Left] > onRamp.QueueDetectors[DetIndex].DistanceLaneFt)
+                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Left] > onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt)
                             {
                                 IsIntQdetActive = true;
                             }
                         }
                         if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.IntermediateQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.Right)
                         {
-                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Right] > onRamp.QueueDetectors[DetIndex].DistanceLaneFt)
+                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Right] > onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt)
                             {
                                 IsIntQdetActive = true;
                             }
@@ -86,7 +86,7 @@ namespace QueueCalcs
                     {
                         if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.IntermediateQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.All)
                         {
-                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Total] > onRamp.QueueDetectors[DetIndex].DistanceLaneFt)
+                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Total] > onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt)
                             {
                                 IsIntQdetActive = true;
                             }
@@ -112,14 +112,14 @@ namespace QueueCalcs
                 {
                     if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.IntermediateQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.Left)
                     {
-                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Left] < onRamp.QueueDetectors[DetIndex].DistanceLaneFt - 50)
+                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Left] < onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt - 50)
                         {
                             IsIntQdetActive = false;
                         }
                     }
                     if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.IntermediateQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.Right)
                     {
-                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Right] < onRamp.QueueDetectors[DetIndex].DistanceLaneFt - 50)
+                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Right] < onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt - 50)
                         {
                             IsIntQdetActive = false;
                         }
@@ -132,7 +132,7 @@ namespace QueueCalcs
                 {
                     if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.IntermediateQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.All)
                     {
-                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Total] < onRamp.QueueDetectors[DetIndex].DistanceLaneFt - 50)
+                        if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Total] < onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt - 50)
                         {
                             IsIntQdetActive = false;
                         }
@@ -151,14 +151,14 @@ namespace QueueCalcs
                     {
                         if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.AdvanceQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.Left)
                         {
-                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Left] < onRamp.QueueDetectors[DetIndex].DistanceLaneFt - 100)
+                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Left] < onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt - 100)
                             {
                                 IsIntQdetActive = false;
                             }
                         }
                         if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.AdvanceQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.Right)
                         {
-                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Right] < onRamp.QueueDetectors[DetIndex].DistanceLaneFt - 100)
+                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Right] < onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt - 100)
                             {
                                 IsIntQdetActive = false;
                             }
@@ -171,7 +171,7 @@ namespace QueueCalcs
                     {
                         if (onRamp.QueueDetectors[DetIndex].Type == DetectorType.AdvanceQueue && onRamp.QueueDetectors[DetIndex].Movement == DetectorMovement.All)
                         {
-                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Total] < onRamp.QueueDetectors[DetIndex].DistanceLaneFt - 100)
+                            if (onRamp.Segments[0].Results.QueueLengthFtPerLane[(int)QueuedVehMovement.Total] < onRamp.QueueDetectors[DetIndex].DistanceUpstreamFromMeterFt - 100)
                             {
                                 IsAdvanceQdetActive = false;
                             }

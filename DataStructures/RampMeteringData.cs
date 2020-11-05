@@ -24,6 +24,7 @@ namespace QueueCalcs.DataStructures
             _maxRateVehPerHr = maxRateVehPerHr;
         }
 
+        [XmlIgnore]
         public int CurrentRateVehPerHr { get => _currentRateVehPerHr; set => _currentRateVehPerHr = value; }
         public int BaseRateVehPerHr { get => _baseRateVehPerHr; set => _baseRateVehPerHr = value; }
         public int AddedRateVehPerHr { get => _addedRateVehPerHr; set => _addedRateVehPerHr = value; }
