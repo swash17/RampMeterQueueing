@@ -1,0 +1,63 @@
+Sub QueuingAnalysisResultsMacro()
+Dim arrivalsAndDeparturesChart As Chart
+Dim percentMeteringAndQueueOccupied As Chart
+Set arrivalsAndDeparturesChart = ActiveSheet.Shapes.AddChart2(-1, xlXYScatterLines, Cells(33, 18).Left, Cells(4, 18).Top, 800, 450, -1).Chart
+Set percentMeteringAndQueueOccupied = ActiveSheet.Shapes.AddChart2(-1, xlXYScatterLines, Cells(64, 18).Left, Cells(39, 18).Top, 800, 450, -1).Chart
+
+
+With arrivalsAndDeparturesChart
+    'cumulative arrivals data
+    arrivalsAndDeparturesChart.SeriesCollection.NewSeries
+    arrivalsAndDeparturesChart.FullSeriesCollection(1).Name = "=""Cumulative Arrivals"""
+    arrivalsAndDeparturesChart.FullSeriesCollection(1).XValues = "=Results!$A$2:$A$3601"
+    arrivalsAndDeparturesChart.FullSeriesCollection(1).Values = "=Results!$I$2:$I$3601"
+    'cumulative departures data
+    arrivalsAndDeparturesChart.SeriesCollection.NewSeries
+    arrivalsAndDeparturesChart.FullSeriesCollection(2).XValues = "=Results!$A$2:$A$3601"
+    arrivalsAndDeparturesChart.FullSeriesCollection(2).Name = "=""Cumulative Arrivals"""
+    arrivalsAndDeparturesChart.FullSeriesCollection(2).Values = "=Results!$J$2:$J$3601"
+    'num vehicles in queue data
+    arrivalsAndDeparturesChart.SeriesCollection.NewSeries
+    arrivalsAndDeparturesChart.FullSeriesCollection(3).Name = "=""Num. Vehicles in Queue"""
+    arrivalsAndDeparturesChart.FullSeriesCollection(3).XValues = "=Results!$A$2:$A$3601"
+    arrivalsAndDeparturesChart.FullSeriesCollection(3).Values = "=Results!$K$2:$K$3601"
+
+    arrivalsAndDeparturesChart.SetElement (msoElementPrimaryCategoryAxisTitleAdjacentToAxis)
+    arrivalsAndDeparturesChart.SetElement (msoElementPrimaryValueAxisTitleAdjacentToAxis)
+    arrivalsAndDeparturesChart.SetElement (msoElementChartTitleNone)
+    arrivalsAndDeparturesChart.HasLegend = True
+    arrivalsAndDeparturesChart.Axes(xlValue, xlPrimary).HasTitle = True
+    arrivalsAndDeparturesChart.SetElement (msoElementLegendTop)
+    arrivalsAndDeparturesChart.Axes(xlCategory).AxisTitle.Select
+    Selection.Caption = "Time (s)"
+    arrivalsAndDeparturesChart.Axes(xlValue).AxisTitle.Select
+    Selection.Caption = "Vehicles"
+End With
+
+With percentMeteringAndQueueOccupied
+    '% time in max metering mode
+    percentMeteringAndQueueOccupied.SeriesCollection.NewSeries
+    percentMeteringAndQueueOccupied.FullSeriesCollection(1).Name = "=""% Time in Max Metering Mode"""
+    percentMeteringAndQueueOccupied.FullSeriesCollection(1).XValues = "=Results!$A$2:$A$3601"
+    percentMeteringAndQueueOccupied.FullSeriesCollection(1).Values = "=Results!$O$2:$O$3601"
+    '% Queue Storage Occupied data
+    percentMeteringAndQueueOccupied.SeriesCollection.NewSeries
+    percentMeteringAndQueueOccupied.FullSeriesCollection(2).XValues = "=Results!$A$2:$A$3601"
+    percentMeteringAndQueueOccupied.FullSeriesCollection(2).Name = "=""% Queue Storage Occupied"""
+    percentMeteringAndQueueOccupied.FullSeriesCollection(2).Values = "=Results!$N$2:$N$3601"
+
+    percentMeteringAndQueueOccupied.SetElement (msoElementPrimaryCategoryAxisTitleAdjacentToAxis)
+    percentMeteringAndQueueOccupied.SetElement (msoElementPrimaryValueAxisTitleAdjacentToAxis)
+    percentMeteringAndQueueOccupied.SetElement (msoElementChartTitleNone)
+    percentMeteringAndQueueOccupied.HasLegend = True
+    percentMeteringAndQueueOccupied.Axes(xlValue, xlPrimary).HasTitle = True
+    percentMeteringAndQueueOccupied.SetElement (msoElementLegendTop)
+    percentMeteringAndQueueOccupied.Axes(xlCategory).AxisTitle.Select
+    Selection.Caption = "Time (s)"
+    percentMeteringAndQueueOccupied.Axes(xlValue).AxisTitle.Select
+    Selection.Caption = "Percent"
+End With
+
+
+End Sub
+
