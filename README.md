@@ -69,9 +69,11 @@ The `<TimingStages>` section of the input file contains the information about ea
   * Arrival flow rate, in veh/h
   
 A typical timing stage configuration for a diamond interchange (assuming arterial roadway is oriented East-West) is shown in the following figure:
+
 <img align="center" src="Images\TimingStages.png" />
 
 The following schematic illustrates how these timing stage movements correspond to the ramp terminal intersection movements:
+
 <img align="center" src="Images\OnRampSchematic.png" />
 
   * ***Traffic Data:*** The proportion of each of four vehicle type categories must be entered (small auto, large auto, small truck, and large truck). The total must equal 1.0.
