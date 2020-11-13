@@ -516,20 +516,3 @@ namespace QueueCalcs
 
     }
 }
-
-
-
-//to-do: break departure flow rate into sat flow rate and arrival rate
-//if (TimeIndex % inputs.Signal.TimingStageStartTimes[TimingStageIndex] == 0) //Only update at the frequency of the update interval
-//{
-/*
-//for uniform arrivals
-if (TimeIndex <= 15)  //900
-    ArrivalRateTimePeriodIndex = 0;
-else if (TimeIndex <= 30)  //1800
-    ArrivalRateTimePeriodIndex = 1;
-else if (TimeIndex <= 45)  //2700
-    ArrivalRateTimePeriodIndex = 2;
-else
-    ArrivalRateTimePeriodIndex = 3;
-*/

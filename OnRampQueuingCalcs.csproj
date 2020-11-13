@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
@@ -98,6 +99,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Images\CreateOnrampClass.png" />
+    <Content Include="Images\MultipleRampSegments.png" />
+    <Content Include="Images\OnRampSchematic.png" />
+    <Content Include="Images\ProgramUI.png" />
+    <Content Include="Images\ResultsGraph1.jpg" />
+    <Content Include="Images\ResultsGraph2.jpg" />
+    <Content Include="Images\TimingStages.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

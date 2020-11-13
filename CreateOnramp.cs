@@ -60,8 +60,6 @@ namespace QueueCalcs
 
             Intersections.Add(Intersection);
 
-            //InterchangeData Interchange = new InterchangeData(Intersections);
-
             return Intersections;
         }
 
@@ -113,8 +111,6 @@ namespace QueueCalcs
 
             List<InterchangeIntersectionData> Intersections = new List<InterchangeIntersectionData>();
             Intersections.Add(Intersection);
-
-            //InterchangeData Interchange = new InterchangeData(Intersections);            
 
             return Intersections;
         }

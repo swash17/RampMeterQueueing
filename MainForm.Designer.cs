@@ -84,7 +84,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
-            this.Text = "Deterministic Queuing Calculations";
+            this.Text = "Macroscopic Queuing Calculations";
             this.ResumeLayout(false);
 
         }
