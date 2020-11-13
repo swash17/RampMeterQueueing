@@ -1,5 +1,5 @@
 ﻿# Ramp Metering Queuing Calculations User Guide
----
+
 ## Introduction
 [//]: # (This syntax works like a comment, and won't appear in any output.)
 
@@ -69,10 +69,10 @@ The `<TimingStages>` section of the input file contains the information about ea
   * Arrival flow rate, in veh/h
   
 A typical timing stage configuration for a diamond interchange (assuming arterial roadway is oriented East-West) is shown in the following figure:
-![Timing Stages](Images\TimingStages.png)
+<img align="center" src="Images\TimingStages.png" />
 
-The following schematic illustrates how these timing stage movements correspond to the ramp terminal intersection movements 
-![Movements](Images\OnRampSchematic.png) 
+The following schematic illustrates how these timing stage movements correspond to the ramp terminal intersection movements:
+<img align="center" src="Images\OnRampSchematic.png" />
 
   * ***Traffic Data:*** The proportion of each of four vehicle type categories must be entered (small auto, large auto, small truck, and large truck). The total must equal 1.0.
   * ***Vehicle Data:*** The program includes inputs used to determine the amount of space, in feet, occupied on the on-ramp by queued vehicles. These values, at the moment, can only be changed through the source code and not through the input file.
@@ -95,16 +95,12 @@ The Average Vehicle Spacing (in ft) is calculated as follows:
 **<span style="color: blue">S&#772;=  ~i~&sum; (G~i~+ L&#772;~i~ )P~i~</span>**
 ___
 Where, 
-* S&#772;= Average Vehicle Spacing.
-* G~i~= Stop Gap Value of  **i^th^** Vehicle Category. 
-* L&#772;~i~= Average length of **i^th^** Vehicle Category.
-* P~i~= Proportion of **i^th^** Vehicle Category. 
-* **i**= Small Auto,Large Auto,Small Truck,Large Truck
+* S&#772; = Average vehicle spacing (ft).
+* G~i~ = Stop gap value of ***i^th^*** vehicle category (ft). 
+* L&#772;~i~ = Average length of ***i^th^*** vehicle category (ft).
+* P~i~ = Proportion of ***i^th^*** vehicle category in traffic stream.
+* ***i*** = Vehicle category (small auto, large auto, small truck, large truck)
   
-
- [//]: # (this is not complete, as it needs to account for all vehicle categories... **AS- been taken care of**)
-
-
   
 ## InputData.xml File
 ```xml
@@ -208,18 +204,17 @@ Where,
 
 You can write your own method to create your desired intersection/on-ramp configuration. To do this, add a new method to the CreateOnramp class, in the CreateOnramp.cs file. You can also make a copy of the TightDiamond method (shown below), rename it and modify as desired. You will also need to add a call to this method inside of the btnStart_Click method in the MainForm.cs file.
 
-![Using CreateOnRamp.cs](Images\CreateOnrampClass.png)
+<img align="center" src="Images\CreateOnrampClass.png" />
 
 ## Running The Program 
 
 After starting the program, the following screen will be displayed.
 
-![Running Program using InputData.xml file](Images\ProgramUI.png)
+<img align="center" src="Images\ProgramUI.png" />
 
 If the analysis will be based on the InputData.xml file, press the Read Input File button, which will read the InputData.xml file (this file should be in the same folder as the program). Then press the Run Queuing Analysis button. When the program has finished running, a message indicating such will be written to the text box at the bottom of the form. The output file, Results.csv, will now be present in the program folder.
 
 If the analysis will utilize a method written within the CreateOnramp class, do **not** press the Read Input File button. Just press the Run Queuing Analysis button. The rest of the process is as described above. Make sure the desired method in the CreateOnramp class is referenced from the btnStart_Click method.
-
 
 ### Queuing Simulation Process 
 
@@ -262,15 +257,8 @@ When the program finishes running, it will write a file named Results.csv to the
 
 You can use [this macro code](https://github.com/swash17/RampMeterQueueing/blob/master/QueuingAnalysisResultsMacro.txt) to generate the following two types of graphs from the data present in the Results.csv file.
 
-* Cumulative Arrivals, Cumulative Departures, and Queue Length versus Simulation Time![Cumalative Arrivals/Departures and Queue Length](Images\ResultsGraph1.jpg)
+* Cumulative Arrivals, Cumulative Departures, and Queue Length versus Simulation Time:
+<img align="center" src="Images\ResultsGraph1.jpg" />
 
-* Percentage Occupancy of Shared Queue Storage versus Simulation Time:
-![Pct Occ. Shared Queue Storage](Images\ResultsGraph2.jpg)
-
-
-
-
-
-
-
-    
+* Percent Occupancy of Shared Queue Storage versus Simulation Time:
+<img align="center" src="Images\ResultsGraph2.jpg" />
